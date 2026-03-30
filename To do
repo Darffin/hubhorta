@@ -1,0 +1,16 @@
+Bugs:
+Se adicionar 2 fotos iguais (com o mesmo nome), apenas uma será adicionada, e posteriormente dará erro ao apagar o produto.
+
+Add:
+Criar o "carrinho do cliente"
+Incluir pagina de produtos, com preço e opção de adicionar ao carrinho
+Criar o estoque de cada fornecedor
+Mais imagens nos produtos
+API
+
+Mudanças possiveis:
+DELETE CASCADE pra remover os produtos do fornecedor excluido?
+Organizar o codigo, MVC talvez?
+Setar o ID do forncedor para ser o cnpj, e quando for cadastrar um usuario que é fornecedor adicionar mais um input pro usuario preencher.
+
+
