@@ -3,7 +3,7 @@ $page_title = "Pagina Inicial";
 // layout do cabeçalho
 include_once "layout_header.php";
 
-/*
+
  ?>
 	<section>
 	<div class="container">
@@ -41,7 +41,7 @@ include_once "layout_header.php";
 </div>
 	</section>
 <?php
-*/
+
 // layout do rodapé
 include_once "layout_footer.php";
 ?>

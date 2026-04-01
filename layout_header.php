@@ -35,11 +35,12 @@
 <body>
 	<header>
 		<div class="pull-left" id="logo">
-			<img id="gato" src="/hubhorta/images/gato.png" />
+			<!--<img id="gato" src="/hubhorta/images/gato.png" />-->
 		</div>
 
 		<div class="pull-left" id="nomeLogo">
-			<img id="nomeLogo" src="/hubhorta/images/nome.png" height=80/>
+			<h1>HubHorta</h1>
+			<!--<img id="nomeLogo" src="/hubhorta/images/nome.png" height=80/>-->
 		</div>
 		<h1></h1>
 		<div class="user-info pull-right">

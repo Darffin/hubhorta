@@ -23,7 +23,7 @@ include_once "../layout_header.php";
             <td>           
             <select name = "permissao">
             <option value="usuario">Voluntario</option>
-            <option value="dono">Administrar</option>
+            <option value="gerenciador">Administrar</option>
             </select>
             </td>
         </tr>

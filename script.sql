@@ -552,4 +552,4 @@ INSERT INTO fornecedor (id, nome, email, senha) VALUES
 (61, 'Cachorros + Felizes', 'cachorrosfelizes@atendimento.br', 'd9b1d7db4cd6e70935368a1efb10e377'),
 (62, 'Banho Pet', 'banhopet@suporte.br', 'd9b1d7db4cd6e70935368a1efb10e377');
 
-INSERT INTO usuario (id, nome, senha, nome, permissao) VALUES ()
+INSERT INTO usuario (id, nome, senha, nome, permissao) VALUES (100, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrador', 'admin');

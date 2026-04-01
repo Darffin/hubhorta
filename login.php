@@ -9,11 +9,11 @@ $limit = 5;
 $page = $_POST['page'] ?? 1;
 $start = ($page - 1) * $limit;
 
-/*
-$dao = $factory->getHortasDAO();
-$hortas = $dao->buscaComNomePaginado('', $start, $limit);
-$total_data = $dao->contaComNome('');
-*/
+
+//$dao = $factory->getHortasDAO();
+//$hortas = $dao->buscaComNomePaginado('', $start, $limit);
+$total_data =  5;// $dao->contaComNome('');
+
 ?>
 <div class="login-conteudo">
     <div class= "container">
@@ -35,27 +35,27 @@ $total_data = $dao->contaComNome('');
         <section class="col col-md-6 p-4 criar-conta">
             <h1>Crie uma conta de maneira rápida, fácil e gratuita!</h1>
             <h2>Crie sua conta de forma gratuita e tenha acesso a ferramentas para o gerenciamento e divulgação da sua horta!</h1>
-            <div class="text-center pt-2"><a href="/web-petshop/usuario/novo_usuario.php"><button type="submit" class="btn btn-primary">Criar conta</button></a></div>
+            <div class="text-center pt-2"><a href="/hubhorta/usuario/novo_usuario.php"><button type="submit" class="btn btn-primary">Criar conta</button></a></div>
         </section>
 
         <section class="lista">
             <ul class="item-lista">
         <?php
-        /*
+        
         if ($total_data > 0) {
-            foreach ($Hortas as $Horta) {
+           for($i=0; $i<$total_data; $i++){// foreach ( /*$Hortas as $Horta*/) {
                 echo '
-                        <li class="Horta-card">
-                            <a href="/web-petshop/mostra_Horta.php?id='.$Horta->getId().'&title='.$Horta->getNome().'" class="">
+                        <li class="horta-card">
+                            <a href="/hubhorta/mostra_horta.php?" class="">
                                 <div class="image-container" style="height: 230px;">
-                                    <img src="images/uploads/' . $Horta->getImagem() . '"/>
+                                    <img src="images/uploads/"/>
                                 </div>
                             </a>
                         </li>
                     ';
             }
         }
-            */
+            
         ?>
             </ul>
         </section>

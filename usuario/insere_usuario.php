@@ -12,11 +12,11 @@ $usuarios = $dao->buscaTodos();
 
 
 if($dao->buscaPorLogin($login) != null){
-    header("Location: /web-petshop/usuario/novo_usuario.php?erro=conta-ja-existente");
+    header("Location: /hubhorta/usuario/novo_usuario.php?erro=conta-ja-existente");
 }
 
 if (empty($login) || empty($senha) || empty($nome)){
-    header("Location: /web-petshop/usuario/novo_usuario.php?erro=nao-preenchimento");
+    header("Location: /hubhorta/usuario/novo_usuario.php?erro=nao-preenchimento");
     exit;
 }
 
