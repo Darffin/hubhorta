@@ -8,7 +8,7 @@ include_once "layout_header.php";
 <section class='container pagina-hortas'>
   <input name='nome' type='text' class='filtrar form-control' id='palavra' autocomplete='off' placeholder='Filtrar por nome...'>
 
-  <div class='hortas-grid' id='hortas_fetch'></div>
+  <div class='horta-grid' id='hortas_fetch'></div>
 
   <div class='paginacao-container' id='paginacao'></div>
 </section>

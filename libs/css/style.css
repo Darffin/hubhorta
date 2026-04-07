@@ -4,34 +4,9 @@
 
 }
 
-.carrinho{
-margin-top: 12px;
-padding-left: 0 !important;
-display: flex
-;
-}
+/* PRA TELA DE HORTAS DISPONIVEIS */
 
-.carrinho h5{
-  color: white;
-  border-radius: 4px;
-  width: fit-content;
-  height: fit-content;
-  padding: 2px;
-  background: black;
-}
-
-.carrinho img{
-  border-radius: 4px;
-  object-fit: cover;
-  display: block;
-}
-
-.carrinho a{
-cursor: pointer;
-}
-/* PRA TELA DE PRODUTOS DISPONIVEIS */
-
-.produto-grid {
+.horta-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.5rem;
@@ -55,7 +30,7 @@ cursor: pointer;
   z-index: 100;
 }
 
-.pagina-produtos{
+.pagina-hortas{
   display: flex;
   flex-direction: column;
   min-height: 900px; 
@@ -109,7 +84,7 @@ cursor: pointer;
   height: 300px;
 }
 
-.mostra-produto {
+.mostra-horta {
   background-color: #d5fdb2;
   border-radius: 8px;
   padding: 1rem;
@@ -130,7 +105,7 @@ cursor: pointer;
   width: 480px;
 }
 
-.mostra-produto img {
+.mostra-horta img {
   border-radius: 4px;
   width: 100%;
   height: 100%;
@@ -138,7 +113,7 @@ cursor: pointer;
   display: block;
 }
 
-.mostra-produto button {
+.mostra-horta button {
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -154,7 +129,7 @@ cursor: pointer;
   min-height: 100%;
 }
 
-/* .row, .mostra-info, .mostra-produto {
+/* .row, .mostra-info, .mostra-horta {
   border: 1px dashed red;  
 } 
 */
@@ -182,11 +157,6 @@ cursor: pointer;
   font-size: 36px;
   font-weight: 300;
   
-}
-
-.carrinho-card{
-  width: 55px !important;
-  float: right;
 }
 
 .mostra-info .btn-info{
@@ -485,154 +455,6 @@ body {
 footer { grid-area: footer; background-color: #24be48; border:solid; border-radius: 10px;}
 footer p { text-align: center; }
 
-
-/* CSS DO CARRINHO ABAIXOO */
-
-
-.sidebar {
-  height: 100%;
-  width: 278px;
-  position: fixed;
-  top: 0;
-  right: -278px;
-  background-color: #24be48;
-  z-index: 1000;
-  overflow-y: auto;
-  transition: 0.5s;
-  padding: 20px;
-  border: solid;
-  border-radius: 10px;
-}
-
-.sidebar .fecharbtn {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 20px;
-  text-decoration: none;
-  border-radius: 10px;
-  width: 30px;
-  text-align: center;
-}
-
-.sidebar h3 {
-  margin: 30px 0px 30px 0px;
-}
-
-.sidebar a {
-  background-color: black !important;
-  border-color: #24be48 !important;
-  color: #d5fdb2 !important;
-}
-
-#itens-carrinho p {
-  align-content: center;
-}
-
-#itens-carrinho a {
-  left: 0;
-}
-
-.pointer{
-  cursor: pointer;
-}
-
-#itens-carrinho #total{
-  padding: 8px;
-  font-size: 18px;
-  background: #d5fdb2;
-  border-radius: 10px;
-}
-
-#item-carrinho{
-  margin-bottom: 10px;
-  width: 100%;
-  display: inline-flex;
-  background: #d5fdb2;
-  border-radius: 10px;
-}
-
-#item-carrinho p{
-  padding: 4px;
-  width: 50%;
-  text-align: left;
-}
-
-.a-disabled {
-  pointer-events: none;     
-  color: gray;              
-  text-decoration: none;    
-  cursor: not-allowed;     
-  opacity: 0.6;            
-}
-
-.botao-quantidade{
-
-    text-align: center;
-    display: block;
-    width: 30px;
-    font-size: 20px;
-}
-
-.remover-do-carrinho{
-  margin-left: auto;
-  align-content: center;
-  width: 15%;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.btn-carrinho{
-  border-radius: 10px !important;
-}
-
-.sidebar.aberta {
-  right: 0;
-}
-
-/* Pedidos */
-
-.pedido-card {
-  background-color: #d5fdb2;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  text-align: left;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  padding-bottom: 3rem; 
-  z-index: 50 !important;
-}
-
-.pedidos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.5rem;
-}
-
-.preco-quant {
-  font-size: 18px;
-  color: black;
-  margin-bottom: 10px;
-}
-
-.botao-pedido{
-    width: 48%;
-    font-size: large;
-    background: #24be48;
-    border: none;
-    border-radius: 5px;
-    z-index: 100 !important;
-}
-
-.botao-pedido:hover {
-border: 1px solid #24be48;
-background-color: #d5fdb2;
-transition: 0.2s;
-}
 
 .botao-deletar{
   position: absolute;

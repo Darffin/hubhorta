@@ -1,0 +1,33 @@
+<?php
+include_once "../fachada.php";
+
+$nome = @$_GET["nome"];
+$email = @$_GET["email"];
+$senha = @$_GET["senha"];
+
+$dao = $factory->getGerenciadorDao();
+$gerenciadores = $dao->buscaTodos();
+
+$daoUsuario = $factory->getUsuarioDao();
+
+
+if($daoUsuario->buscaPorLogin($email) != null){
+    header("Location: /hubhorta/gerenciador/novo_gerenciador.php?erro=gerenciador-ja-existente");
+}
+
+if (empty($nome) || empty($email) || empty($senha)){
+    header("Location: /hubhorta/gerenciador/novo_gerenciador.php?erro=nao-preenchimento");
+    exit;
+}
+
+$usuario = new Usuario(null,$email,md5($senha),$nome,'gerenciador');
+$daoUsuario->insere($usuario);
+
+$gerenciador = new Gerenciador(null,$nome,$email,md5($senha));
+$dao = $factory->getGerenciadorDao();
+$dao->insere($gerenciador);
+
+header("Location: gerenciadores.php");
+exit;
+
+?>
