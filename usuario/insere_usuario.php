@@ -28,6 +28,12 @@ if($permissao=='dono'){
 }
 */
 
+if($permissao=='gerenciador'){
+    $gerenciador = new Gerenciador(null,$nome,$login,$senha);
+    $daoGerenciador = $factory->getGerenciadorDao();
+    $daoGerenciador->insere($gerenciador);
+}
+
 $usuario = new Usuario(null,$login,$senha,$nome,$permissao);
 $dao->insere($usuario);
 

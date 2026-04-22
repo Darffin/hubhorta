@@ -6,20 +6,19 @@ $dao = $factory->getUsuarioDao();
 $tempUsuario = $dao->buscaPorId($id);
 
 
-/*
-$daoDono = $factory->getDonoDao();
+
+$daoGerenciador = $factory->getGerenciadorDao();
 $daoHorta = $factory->getHortaDao();
 $Horta = $daoHorta->buscaTodos();
-if($tempUsuario->getPermissao()=='Dono'){
-    $tempDono = $daoDono->buscaPorEmail($tempUsuario->getLogin());
+if($tempUsuario->getPermissao()=='gerenciador'){
+    $tempGerenciador = $daoGerenciador->buscaPorEmail($tempUsuario->getLogin());
     foreach($Horta as $Horta){
-        if($Horta->getDono()->getId()==$tempDono->getId()){
+        if($Horta->getGerenciador()->getId()==$tempGerenciador->getId()){
             header("Location: /web-petshop/usuario/usuarios.php?erro=impossivel-remover");
         }
     }
-    $daoDono->removePorId($tempDono->getId());
+    $daoGerenciador->removePorId($tempGerenciador->getId());
 }
-*/
 
 $dao->removePorId($id);
 

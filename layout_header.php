@@ -11,7 +11,9 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 	<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
 	<link rel="icon" href="/hubhorta/images/favicon.ico" type="image/x-icon">
-
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+	
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="/hubhorta/scripts.js"></script>

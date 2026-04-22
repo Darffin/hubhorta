@@ -2,8 +2,10 @@
 
 include_once('model/Usuario.php');
 include_once('model/Gerenciador.php');
+include_once('model/Horta.php');
 include_once('dao/UsuarioDao.php');
 include_once('dao/GerenciadorDao.php');
+include_once('dao/HortaDao.php');
 include_once('dao/DaoFactory.php');
 include_once('dao/PostgresDaoFactory.php');
 

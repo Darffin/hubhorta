@@ -10,39 +10,27 @@ include_once "layout_header.php";
 
   <div class='horta-grid' id='hortas_fetch'></div>
 
+  <div class="card-mapa">
+    <div id="mapa" style="height: 500px;"></div>
+  </div>
+
   <div class='paginacao-container' id='paginacao'></div>
 </section>
 
+
+
 <script>
-$(document).ready(function(){
-  load_data(1,'',12);
+    // Inicializa o mapa
+    var mapa = L.map('mapa').setView([-29.1678, -51.1794], 13); // Coordenadas de São Paulo
 
-  function load_data(page, query = '', limit) {
-    $.ajax({
-      url: "fetch_dao.php",
-      method: "POST",
-      data: { page: page, query: query , limit: limit},
-      success: function(data) {
-        var tempDiv = $('<div>').html(data);
-        $('#hortas_fetch').html(tempDiv.find('.horta-card'));
-        $('#paginacao').html(tempDiv.find('#paginacao-separada').html());
-      }
-    });
-  }
+    // Adiciona a camada de mapa (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(mapa);
 
-  $(document).on('click', '.page-link', function(){
-    var page = $(this).data('page_number');
-    var query = $('#palavra').val();
-    load_data(page, query, 12);
-  });
-
-  $('#palavra').keyup(function(){
-    var query = $(this).val();
-    load_data(1, query, 12);
-  });
-});
-
-
+    // Exemplo de marcador para uma horta
+    var marker = L.marker([-29.1678, -51.1794]).addTo(mapa);
+    marker.bindPopup("<b>Horta Exemplo</b><br>Endereço da Horta").openPopup();
 </script>
 
 <?php include_once "layout_footer.php"; ?>

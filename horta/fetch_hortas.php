@@ -1,40 +1,60 @@
-
 <?php
-include_once('fachada.php');
+include_once('../fachada.php');
+include_once('../verifica.php');
 
-echo '<div id="map" style="height: 500px;"></div>';
-// -- Pagina das Hortas -- //
-
-/*
 $nome = $_POST['query'];
-$limit = $_POST['limit'];
+$limit = 12;
 $page = $_POST['page'] ?? 1;
 $start = ($page - 1) * $limit;
+$dao = $factory->getHortaDao();
 
-$dao = $factory->getHortaDAO();
-$Horta = $dao->buscaComNomePaginado($nome, $start, $limit);
-$total_data = $dao->contaComNome($nome);
+if($_SESSION["permissao"] == 'admin'){
+    $hortas = $dao->buscaComNomePaginadoAdmin($nome, $start, $limit);
+    $total_data = $dao->contaComNomeAdmin($nome);
+}else{
+    $hortas = $dao->buscaComNomePaginadoGerenciador($nome, $start, $limit, $_SESSION["login"]);
+    $total_data = $dao->contaComNomeGerenciador($nome, $_SESSION["login"]);
+}
+
+	echo "<table class='table table-hover table-responsive table-bordered'>";
+
+	echo "<thead>";
+	echo "<tr>";
+	echo "<th>Id</th>";
+	echo "<th>Horta</th>";
+	echo "<th>Latitude</th>";
+	echo "<th>Longitude</th>";
+	echo "<th>Gerenciador</th>";
+	echo "<th>Imagem</th>";
+	echo "<th>Ações</th>";
+	echo "</tr>";
+	echo "</thead>";
 
 if ($total_data > 0) {
-    foreach ($Horta as $Horta) {
-        echo ' <div class="Horta-card" >
-                    <a href="/web-petshop/mostra_Horta.php?id='.$Horta->getId().'&title='.$Horta->getNome().'" class="">
-                        <div class="image-container">
-                            <img src="images/uploads/' . $Horta->getImagem() . '"/>';
-        echo            '</div>
-                        <h2>' . $Horta->getNome() . '</h2>
-                        <div class="preco">R$ ' . $Horta->getValor() . '</div>
-                </a>';
-?>
-                <button>
-                <img src=""> <!--  -->
-                </button>
-                </div>
-<?php
-    }
-} else echo '<div class="Horta-card"><h2>Nenhuma Horta encontrada!</h2></div>';
+    foreach ($hortas as $horta) {
+		echo "<tr>";
+		echo "<td>{$horta->getId()}</td>";
+		echo "<td>{$horta->getNome()}</td>";
+		echo "<td>{$horta->getLatitude()}</td>";
+		echo "<td>{$horta->getLongitude()}</td>";
+		echo "<td>{$horta->getGerenciador()->getNome()}</td>";
+		echo "<td>{$horta->getImagem()}</td>";
+		echo "<td class='text-center'>";
+		echo "<a href='modifica_horta.php?id={$horta->getId()}' class='btn btn-info left-margin'>";
+		echo "<span class='glyphicon glyphicon-edit'></span> Altera";
+		echo "</a>";
 
-echo '<div id="paginacao-separada" style="">';
+		echo "<a href='#' class='btn btn-danger left-margin' ";
+		echo "onclick=\"confirmarExclusao({$horta->getId()})\">";
+		echo "<span class='glyphicon glyphicon-remove'></span> Exclui";
+		echo "</a>";
+		echo "</td>";
+		echo "</tr>";
+    }
+} else echo "<tr><td colspan='7'>Nenhum produto encontrado.</td></tr>";
+
+echo "</table>";
+echo '<div id="paginacao-separada" style="display:none;">';
 echo '<ul class="pagination">';
 
 $total_links = ceil($total_data / $limit);
@@ -83,21 +103,4 @@ echo ($next <= $total_links) ?
 
 echo '</ul>';
 echo '</div>';
-*/
-
 ?>
-
-<script>
-    // Inicializa o mapa
-    var map = L.map('map').setView([-23.5505, -46.6333], 12); // Coordenadas de São Paulo
-
-    // Adiciona a camada de mapa (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Exemplo de marcador para uma horta
-    var marker = L.marker([-23.5505, -46.6333]).addTo(map);
-    marker.bindPopup("<b>Horta Exemplo</b><br>Endereço da Horta").openPopup();
-</script>
-

@@ -6,6 +6,14 @@
 
 /* PRA TELA DE HORTAS DISPONIVEIS */
 
+
+.card-mapa {
+  padding: 10px;
+  background: #d5fdb2;
+  border-radius: 10px;
+}
+
+
 .horta-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
