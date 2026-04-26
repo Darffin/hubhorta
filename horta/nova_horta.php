@@ -4,7 +4,7 @@ $page_title = "Nova Horta";
 include_once "../layout_header.php";
 include_once "../fachada.php";
 $tela = 'hortas';
-include "../verifica.php";
+//include "../verifica.php";  ativar de novo quando tiver o login funcionando
 
 $dao = $factory->getGerenciadorDao(); 
 $gerenciadores = $dao->buscaTodos();
@@ -21,25 +21,17 @@ $gerenciadores = $dao->buscaTodos();
 
         <tr>
             <td>
-            <label for="id_gerenciador">Gerenciador:</label>            
-            <select name = "id_gerenciador">
-            <?php
-                foreach ($gerenciadores as $umGerenciador) {
-                    echo "<option value=\"" . $umGerenciador->getId() . "\"";
-                    //if($umGerenciador->getId() == $id_gerenciador) {
-                    //    echo " selected ";
-                    //} 
-                    echo ">" . $umGerenciador->getNome() . "</option>\n"; 
-                }
-            ?>
-            </select>
             </td>
-
+                <button type="button" onclick="usarLocalizacao()" class="btn btn-secondary">
+                 Usar minha localização
+                </button>
+              <div id="map" style="height: 400px; margin-top: 20px;"></div>
             <td>
-
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
             <!-- <form action="enviar.php" method="post" enctype="multipart/form-data"> -->
-                <input type="file" name="Arquivo" id="Arquivo">
-                <input type="reset" value="Apagar">
+            <!--    <input type="file" name="Arquivo" id="Arquivo"> -->
+            <!--    <input type="reset" value="Apagar"> -->
             <!-- </form> -->
             </td>
 
@@ -85,9 +77,71 @@ include_once "../layout_footer.php";
 ?>
 <script src="https://unpkg.com/imask"></script>
 
-<script>
 
+<script>
+    // Inicializa mapa (centro em Porto Alegre)
+    var map = L.map('map').setView([-29.1678, -51.1794], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker;
+
+    // Função para atualizar inputs
+    function atualizarInputs(lat, lng) {
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+
+        document.getElementById('lat_view').value = lat;
+        document.getElementById('lng_view').value = lng;
+    }
+
+    // Função para criar ou mover marcador
+    function setMarker(latlng) {
+        if (marker) {
+            marker.setLatLng(latlng);
+        } else {
+            marker = L.marker(latlng, { draggable: true }).addTo(map);
+
+            marker.on('dragend', function(e) {
+                var pos = e.target.getLatLng();
+                atualizarInputs(pos.lat, pos.lng);
+            });
+        }
+
+        marker.bindPopup("Local da horta").openPopup();
+        atualizarInputs(latlng.lat, latlng.lng);
+    }
+
+    // Clique no mapa
+    map.on('click', function(e) {
+        setMarker(e.latlng);
+    });
+
+    // Geolocalização do usuário
+    function usarLocalizacao() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var lat = position.coords.latitude;
+                    var lng = position.coords.longitude;
+
+                    var latlng = L.latLng(lat, lng);
+
+                    map.setView(latlng, 16);
+                    setMarker(latlng);
+                },
+                function(error) {
+                    alert("Não foi possível obter sua localização.");
+                }
+            );
+        } else {
+            alert("Geolocalização não suportada pelo navegador.");
+        }
+    }
 </script>
+
 
 
 

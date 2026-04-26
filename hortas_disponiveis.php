@@ -8,7 +8,7 @@ include_once "layout_header.php";
 <section class='container pagina-hortas'>
   <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;'>
     <input name='nome' type='text' class='filtrar form-control' id='palavra' autocomplete='off' placeholder='Filtrar por nome...'>
-    <a href='horta/t-nova_horta.php' class='btn btn-primary' style='white-space: nowrap;'>Nova Horta</a>
+    <a href='horta/nova_horta.php' class='btn btn-primary' style='white-space: nowrap;'>Nova Horta</a>
   </div>
   <div class='horta-grid' id='hortas_fetch'></div>
 
