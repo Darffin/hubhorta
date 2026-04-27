@@ -12,8 +12,8 @@ class PostgresHortaDao extends PostgresDao implements HortaDao
     {
 
         $query = "INSERT INTO " . $this->table_name .
-            " (nome, latitude, longitude, id_gerenciador) VALUES" .
-            " (:nome, :latitude, :longitude, :id_gerenciador)";
+            " (nome, latitude, longitude, id_gerenciador,imagem) VALUES" .
+            " (:nome, :latitude, :longitude, :id_gerenciador, :imagem)";
 
         $stmt = $this->conn->prepare($query);
 

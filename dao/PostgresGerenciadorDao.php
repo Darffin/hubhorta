@@ -12,12 +12,13 @@ class PostgresGerenciadorDao extends PostgresDao implements GerenciadorDao
     {
 
         $query = "INSERT INTO " . $this->table_name .
-            " (nome, email, senha) VALUES" .
-            " (:nome, :email, :senha)";
+            " (id, nome, email, senha) VALUES" .
+            " (:id, :nome, :email, :senha)";
 
         $stmt = $this->conn->prepare($query);
 
         // bind values 
+        $stmt->bindValue(":id", $gerenciador->getId());
         $stmt->bindValue(":nome", $gerenciador->getNome());
         $stmt->bindValue(":email", $gerenciador->getEmail());
         $stmt->bindValue(":senha", md5($gerenciador->getSenha()));

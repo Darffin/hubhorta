@@ -28,14 +28,18 @@ if($permissao=='dono'){
 }
 */
 
+
+$usuario = new Usuario(null,$login,$senha,$nome,$permissao);
+$dao->insere($usuario);
+$usuarioCadastrado = $dao->buscaPorLogin($login);
+
 if($permissao=='gerenciador'){
-    $gerenciador = new Gerenciador(null,$nome,$login,$senha);
+    $gerenciador = new Gerenciador($usuarioCadastrado->getId(),$nome,$login,$senha);
     $daoGerenciador = $factory->getGerenciadorDao();
     $daoGerenciador->insere($gerenciador);
 }
 
-$usuario = new Usuario(null,$login,$senha,$nome,$permissao);
-$dao->insere($usuario);
+
 
 header("Location: usuarios.php");
 exit;

@@ -20,13 +20,8 @@ $gerenciadores = $dao->buscaTodos();
         </tr>
 
         <tr>
-            <td>
-            </td>
-                <button type="button" onclick="usarLocalizacao()" class="btn btn-secondary">
-                 Usar minha localização
-                </button>
-              <div id="map" style="height: 400px; margin-top: 20px;"></div>
-            <td>
+            <td>Localização</td>
+            <td id="map" style="height: 150px;"></td>
                 <input type="hidden" name="latitude" id="latitude">
                 <input type="hidden" name="longitude" id="longitude">
             <!-- <form action="enviar.php" method="post" enctype="multipart/form-data"> -->
@@ -34,7 +29,9 @@ $gerenciadores = $dao->buscaTodos();
             <!--    <input type="reset" value="Apagar"> -->
             <!-- </form> -->
             </td>
-
+        </tr>
+        <tr>
+            <td></td>
             <td>
                 <button type="submit" class="btn btn-primary">Inserir</button>
             </td>

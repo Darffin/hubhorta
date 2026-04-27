@@ -3,6 +3,20 @@
 
 $page_title = "Hortas disponíveis";
 include_once "layout_header.php";
+include_once "fachada.php";
+
+$dao = $factory->getHortaDao(); 
+$hortas = $dao->buscaTodos();   
+$hortas_array = [];
+
+foreach ($hortas as $h) {
+  $hortas_array[] = [
+  "id" => $h->getId(),
+  "nome" => $h->getNome(),
+  "latitude" => $h->getLatitude(),
+  "longitude" => $h->getLongitude()
+  ];
+}
 ?>
 
 <section class='container pagina-hortas'>
@@ -22,16 +36,37 @@ include_once "layout_header.php";
 
 
 <script>
-    
     var mapa = L.map('mapa').setView([-29.1678, -51.1794], 13);
+
+    console.log(hortas);
+    var hortas = <?php echo json_encode($hortas_array, JSON_UNESCAPED_UNICODE); ?>;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors'
     }).addTo(mapa);
 
-    var marker = L.marker([-29.159945, -51.177010]).addTo(mapa);
-    marker.bindPopup("<b>Horta Exemplo</b><br>Endereço da Horta").openPopup();
+    var bounds = [];
 
+    hortas.forEach(function(horta) {
+
+        var lat = parseFloat(horta.latitude);
+        var lng = parseFloat(horta.longitude);
+
+        if (!isNaN(lat) && !isNaN(lng)) {
+
+            var marker = L.marker([lat, lng]).addTo(mapa);
+
+            marker.bindPopup(
+                "<b>" + (horta.nome || "Sem nome") + "</b><br>ID: " + horta.id
+            );
+
+            bounds.push([lat, lng]);
+        }
+    });
+
+    if (bounds.length > 0) {
+        mapa.fitBounds(bounds);
+    }
 </script>
 
 <?php include_once "layout_footer.php"; ?>

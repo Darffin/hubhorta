@@ -22,8 +22,9 @@ if (empty($nome) || empty($email) || empty($senha)){
 
 $usuario = new Usuario(null,$email,md5($senha),$nome,'gerenciador');
 $daoUsuario->insere($usuario);
+$usuarioCadastrado = $daoUsuario->buscaPorLogin($email);
 
-$gerenciador = new Gerenciador(null,$nome,$email,md5($senha));
+$gerenciador = new Gerenciador($usuarioCadastrado->getId(),$nome,$email,md5($senha));
 $dao = $factory->getGerenciadorDao();
 $dao->insere($gerenciador);
 
