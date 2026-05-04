@@ -23,7 +23,7 @@
 		</ul>
 	</aside>
 	<footer>
-		<p>© 2025 Equipe HubHorta. HubHorta. Todos os direitos reservados.</p>
+		<p>© 2026 Equipe HubHorta. HubHorta. Todos os direitos reservados.</p>
 	</footer>
 
 </body>
