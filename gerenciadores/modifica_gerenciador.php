@@ -34,7 +34,7 @@ include_once "../layout_header.php";
             <td></td>
             <td>
                 <button type="submit" class="btn btn-primary">Alterar</button>
-                <a href='fornecedores.php' class='btn btn-primary left-margin'>Cancela</a>
+                <a href='gerenciadores.php' class='btn btn-primary left-margin'>Cancela</a>
             </td>
         </tr>
     </table>

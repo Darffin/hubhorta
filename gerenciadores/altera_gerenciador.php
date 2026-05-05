@@ -10,14 +10,14 @@ $daoUsuario = $factory->getUsuarioDao();
 $gerenciadorAntes = $dao->buscaPorId($id);
 
 if (empty($email) || empty($senha) || empty($nome)){
-    header("Location: /hubhorta/gerenciador/modifica_gerenciador.php?erro=nao-preenchimento&id={$id}");
+    header("Location: /hubhorta/gerenciadores/modifica_gerenciador.php?erro=nao-preenchimento&id={$id}");
     exit;
 }
 
 
 
 if(($daoUsuario->buscaPorLogin($email) != null) && $gerenciadorAntes->getEmail()!=$email){
-    header("Location: /hubhorta/gerenciador/modifica_gerenciador.php?erro=gerenciador-ja-existente&id={$id}");
+    header("Location: /hubhorta/gerenciadores/modifica_gerenciador.php?erro=gerenciador-ja-existente&id={$id}");
     exit;
 }
 
