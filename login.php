@@ -62,6 +62,24 @@ $total_data =  5;// $dao->contaComNome('');
     </div>
 </div>
 <?php
+
+if (isset($_GET['conta-criada'])) {
+    echo "
+    <script>
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Conta criada!',
+            showConfirmButton: false,
+            timer: 1500,
+            backdrop: 'rgba(255, 255, 255, 0)',
+            customClass: {
+                popup: 'pop-up'
+            }
+        });
+    </script>";
+}
+
 if (isset($_GET['erro']) && $_GET['erro'] === 'senha') {
     echo "<script>
         Swal.fire({
