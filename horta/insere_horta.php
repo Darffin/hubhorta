@@ -10,15 +10,18 @@ $id_gerenciador = $_SESSION["id_usuario"];
 $string_temp = "";
 
 
-//if (empty($nome) || empty($latitude) || empty($longitude) || empty($id_gerenciador)){
-//    header("Location: /hubhorta/horta/nova_horta.php?erro=nao-preenchimento");
-//    exit;
-//}
+if (empty($nome)){
+    header("Location: /hubhorta/horta/nova_horta.php?erro=nao-preenchimento");
+    exit;
+}
 
-//if (empty($nome_temporario)){
-//    header("Location: /hubhorta/horta/nova_horta.php?erro=nao-selecionou-arquivo");
-//    exit;
-//}
+$daoGerenciador = $factory->getGerenciadorDao();
+$tempGerenciador = $daoGerenciador->buscaPorId($id_gerenciador);
+
+if ($tempGerenciador==null){
+    header("Location: /hubhorta/horta/nova_horta.php?erro=nao-gerenciador");
+    exit;
+}
 
 
 // Seleciona o nome temporário do arquivo, ganho durante o upload

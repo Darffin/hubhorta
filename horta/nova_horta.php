@@ -46,7 +46,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'nao-preenchimento') {
         Swal.fire({
             icon: 'error',
             title: 'Erro ao adicionar horta',
-            text: 'Você precisa preencher todos os campos para adicionar uma horta!',
+            text: 'Sua horta precisa de um nome!',
             customClass: {
             popup: 'pop-up',
 			confirmButton: 'btn-vermelho'
@@ -55,17 +55,26 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'nao-preenchimento') {
     </script>";
 }
 
-if (isset($_GET['erro']) && $_GET['erro'] === 'nao-selecionou-arquivo') {
+if (isset($_GET['erro']) && $_GET['erro'] === 'nao-gerenciador') {
     echo "<script>
         Swal.fire({
             icon: 'error',
             title: 'Erro ao adicionar horta',
-            text: 'Você precisa adicionar uma foto à sua horta!',
+            text: 'Você precisa ser um gerenciador pra criar uma horta!',
+            showCancelButton: true,
+			confirmButtonColor: '#1b5e20',
+			cancelButtonColor: '#aaa',
+			confirmButtonText: 'Criar conta',
+			cancelButtonText: 'Cancelar',
             customClass: {
             popup: 'pop-up',
-			confirmButton: 'btn-vermelho'
-        }
-        });
+			confirmButton: ''
+            }
+            }).then((result) => {
+			if (result.isConfirmed) {
+				window.location.href = '/hubhorta/gerenciadores/novo_gerenciador.php';
+			}
+		});
     </script>";
 }
 
@@ -76,7 +85,29 @@ include_once "../layout_footer.php";
 
 
 <script>
-    // Inicializa mapa (centro em Porto Alegre)
+
+	function criarContaGerenciador(id) {
+		Swal.fire({
+			title: "Tem certeza?",
+			text: "Essa ação não poderá ser desfeita!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#d33",
+			cancelButtonColor: "#aaa",
+			confirmButtonText: "Sim, excluir!",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				popup: 'pop-up',
+				confirmButton: 'btn-vermelho'
+			}
+		}).then((result) => {
+			if (result.isConfirmed) {
+				window.location.href = 'remove_usuario.php?id=' + id;
+			}
+		});
+	}
+
+    
     var map = L.map('map').setView([-29.1678, -51.1794], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

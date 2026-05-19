@@ -1,5 +1,6 @@
 <?php
 include_once "../fachada.php";
+include_once "../verifica.php";
 
 $nome = @$_GET["nome"];
 $email = @$_GET["email"];
@@ -27,6 +28,11 @@ $usuarioCadastrado = $daoUsuario->buscaPorLogin($email);
 $gerenciador = new Gerenciador($usuarioCadastrado->getId(),$nome,$email,md5($senha));
 $dao = $factory->getGerenciadorDao();
 $dao->insere($gerenciador);
+
+if(isset($_SESSION["id_usuario"])){ //Mostrar conta criada?
+    header("Location: /hubhorta/executa_logout.php?conta-criada");
+    exit;
+}
 
 header("Location: /hubhorta/gerenciadores/gerenciadores.php");
 exit;
