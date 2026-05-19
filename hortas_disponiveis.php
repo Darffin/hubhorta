@@ -56,8 +56,14 @@ foreach ($hortas as $h) {
 
             var marker = L.marker([lat, lng]).addTo(mapa);
 
-            marker.bindPopup(
-                "<b>" + (horta.nome || "Sem nome") + "</b><br>ID: " + horta.id
+            marker.bindPopup(        
+            `<b>${horta.nome || "Sem nome"}</b><br>
+            ID: ${horta.id}<br><br>
+            <a href="mostra_horta.php?id=${horta.id}" 
+               class="btn btn-primary">
+               Acessar
+            </a>`
+            
             );
 
             bounds.push([lat, lng]);

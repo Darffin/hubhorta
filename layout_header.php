@@ -19,20 +19,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
 	
 	<script src="/hubhorta/scripts.js"></script>
-	<script>
-		document.addEventListener('DOMContentLoaded', () => {
-			const senhaInput = document.getElementById('senha');
-			const gatoLogo = document.getElementById('gato');
-		
-			senhaInput.addEventListener('focus', () => {
-				gatoLogo.src = '/hubhorta/images/1.gif';
-			});
-
-			senhaInput.addEventListener('blur', () => {
-				gatoLogo.src = '/hubhorta/images/2.gif';
-			});
-		});
-	</script>
 
 </head>
 

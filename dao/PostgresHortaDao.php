@@ -273,8 +273,7 @@ public function buscaComNomePaginado($nome,$inicio,$quantos) {
                 " . $this->table_name . " h
               JOIN 
                 gerenciador g ON g.id = h.id_gerenciador
-                  WHERE UPPER(h.nome) LIKE ? AND 
-              h.quantidade > 0" .
+                  WHERE UPPER(h.nome) LIKE ?" .
                 " ORDER BY id ASC LIMIT ? OFFSET ?";
  
     $stmt = $this->conn->prepare( $query );
@@ -303,7 +302,7 @@ public function contaComNome($nome) {
 
     $query = "SELECT COUNT(*) AS contagem FROM " . 
                 $this->table_name . " 
-                WHERE UPPER(nome) LIKE ? AND quantidade > 0";
+                WHERE UPPER(nome) LIKE ?";
  
     $stmt = $this->conn->prepare( $query );
     $stmt->bindValue(1, '%' . strtoupper($nome) . '%');
