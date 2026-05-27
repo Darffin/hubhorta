@@ -43,7 +43,7 @@ echo "
 <div class='mostra-acoes mt-auto mt-auto d-flex flex-column align-items-center w-100'>
 
     <?php
-        echo "<button onclick='' class='btn btn-info row'>Se voluntariar</button> 
+        echo "<button onclick='seVoluntariar(".$horta->getId().");' class='btn btn-info row'>Se voluntariar</button> 
         <button onclick='adicionarInteresse(".$horta->getId().", select.value);' class='btn btn-info row'>Adicionar aos interesses</button>";
     ?>
 </div>
@@ -74,10 +74,6 @@ echo "
         }
         ?>
     
-    
-    <!-- COMEÇO DA PUTARIA-->
-
-    <!-- FIM DA PUTARIA-->
     </section>
 </div>
 </section>
@@ -135,4 +131,67 @@ include_once "layout_footer.php";
     load_data(page, query, limite);
   });
 });
+
+function adicionarInteresse(id_horta, id_usuario) {
+    $.ajax({
+        url: "adicionar_interesse.php",
+        method: "POST",
+        data: { id_horta: id_horta, id_usuario: id_usuario },
+        success: function(response) {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Horta adicionada aos interesses!',
+                showConfirmButton: false,
+                timer: 1500,
+                backdrop: `rgba(255, 255, 255, 0)`,
+                customClass: { popup: 'pop-up' }
+            });
+        },
+        error: function() {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Erro ao adicionar interesse!',
+                showConfirmButton: false,
+                timer: 1500,
+                backdrop: `rgba(255, 255, 255, 0)`,
+                customClass: { popup: 'pop-up' }
+            });
+        }
+    });
+}
+
+function seVoluntariar(id_horta) {
+    $.ajax({
+        url: "usuario/voluntariar.php",
+        method: "POST",
+        data: { id_horta: id_horta},
+        success: function(response) {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Você se voluntariou para essa horta!',
+                showConfirmButton: false,
+                timer: 1500,
+                backdrop: `rgba(255, 255, 255, 0)`,
+                customClass: { popup: 'pop-up' }
+            }).then(() => {
+                location.reload();
+            });
+        },
+        error: function() {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Erro ao se voluntariar!',
+                showConfirmButton: false,
+                timer: 1500,
+                backdrop: `rgba(255, 255, 255, 0)`,
+                customClass: { popup: 'pop-up' }
+            });
+        }
+    });
+}
+
 </script>

@@ -496,6 +496,10 @@ COPY public.gerenciador (id, nome, email, senha) FROM stdin;
 13	admg	admg	81dc9bdb52d04dc20036dbd8313ed055
 \.
 
+insert into public.gerenciador (id, nome, email, senha) values (1, 'darffin', 'darffin', '81dc9bdb52d04dc20036dbd8313ed055');
+insert into public.gerenciador (id, nome, email, senha) values (3, 'gerv', 'gerv', 'ec6a6536ca304edf844d1d248a4f08dc');
+insert into public.gerenciador (id, nome, email, senha) values (13, 'admg', 'admg', '81dc9bdb52d04dc20036dbd8313ed055');
+
 
 --
 -- TOC entry 5064 (class 0 OID 16866)
@@ -561,6 +565,12 @@ COPY public.usuario (id, login, senha, nome, permissao) FROM stdin;
 3	gerv	ec6a6536ca304edf844d1d248a4f08dc	gerv	gerenciador
 13	admg	81dc9bdb52d04dc20036dbd8313ed055	admg	gerenciador
 \.
+
+insert into public.usuario (id, login, senha, nome, permissao) values (1, 'darffin', '81dc9bdb52d04dc20036dbd8313ed055', 'darffin', 'gerenciador');
+insert into public.usuario (id, login, senha, nome, permissao) values (100, 'admin', '81dc9bdb52d04dc20036dbd8313ed055', 'Administrador', 'admin');
+insert into public.usuario (id, login, senha, nome, permissao) values (2, 'vol', '81dc9bdb52d04dc20036dbd8313ed055', 'vol', 'usuario');
+insert into public.usuario (id, login, senha, nome, permissao) values (3, 'gerv', 'ec6a6536ca304edf844d1d248a4f08dc', 'gerv', 'gerenciador');
+insert into public.usuario (id, login, senha, nome, permissao) values (13, 'admg', '81dc9bdb52d04dc20036dbd8313ed055', 'admg', 'gerenciador');
 
 
 --

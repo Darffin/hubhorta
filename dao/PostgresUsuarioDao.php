@@ -29,6 +29,25 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
 
     }
 
+        public function voluntariar($usuario, $horta) {
+
+        $query = "INSERT INTO hortas_voluntariadas (id_usuario, id_horta) VALUES" .
+        " (:id_usuario, :id_horta)";
+
+        $stmt = $this->conn->prepare($query);
+
+        // bind values 
+        $stmt->bindValue(":id_usuario", $usuario->getId());
+        $stmt->bindValue(":id_horta", $horta->getId());
+
+        if($stmt->execute()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
     public function removePorId($id) {
         $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";
