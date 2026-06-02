@@ -48,6 +48,76 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
 
     }
 
+    public function desvoluntariar($id_usuario, $id_horta) {
+
+    $query = "DELETE FROM hortas_voluntariadas
+              WHERE id_usuario = :id_usuario
+              AND id_horta = :id_horta";
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindValue(':id_usuario', $id_usuario);
+    $stmt->bindValue(':id_horta', $id_horta);
+
+    return $stmt->execute();
+    }
+    
+        public function buscaHortaVoluntariada($id_usuario, $id_horta) {
+        
+        $usuario = null;
+
+        $query = "SELECT
+                    id_usuario, id_horta
+                FROM
+                    hortas_voluntariadas
+                WHERE
+                    id_usuario = ? AND id_horta = ?";
+     
+        $stmt = $this->conn->prepare( $query );
+        $stmt->bindValue(1, $id_usuario);
+        $stmt->bindValue(2, $id_horta);
+        $stmt->execute();
+     
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($row) {
+            return true;
+            //$usuario = new Usuario($row['id'],$row['login'], $row['senha'], $row['nome'], $row['permissao']);
+        } 
+        return false;
+    }
+
+    public function buscaHortasDeUmUsuario($id_usuario) {
+
+    $hortas = array();
+
+    $query = "SELECT h.*
+              FROM horta h
+              INNER JOIN hortas_voluntariadas hv
+                  ON h.id = hv.id_horta
+              WHERE hv.id_usuario = ?
+              ORDER BY h.id ASC";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(1, $id_usuario);
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        $horta = new Horta(
+            $row['id'],
+            $row['nome'],
+            $row['latitude'],
+            $row['longitude'],
+            $row['id_gerenciador'],
+            $row['imagem']
+        );
+
+        $hortas[] = $horta;
+    }
+
+    return $hortas;
+}
+
     public function removePorId($id) {
         $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";

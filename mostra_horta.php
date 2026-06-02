@@ -168,28 +168,39 @@ function seVoluntariar(id_horta) {
         method: "POST",
         data: { id_horta: id_horta},
         success: function(response) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Você se voluntariou para essa horta!',
-                showConfirmButton: false,
-                timer: 1500,
-                backdrop: `rgba(255, 255, 255, 0)`,
-                customClass: { popup: 'pop-up' }
-            }).then(() => {
-                location.reload();
-            });
-        },
-        error: function() {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'error',
-                title: 'Erro ao se voluntariar!',
-                showConfirmButton: false,
-                timer: 1500,
-                backdrop: `rgba(255, 255, 255, 0)`,
-                customClass: { popup: 'pop-up' }
-            });
+            if(response.trim() === "sucesso") {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Você se voluntariou para essa horta!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    backdrop: `rgba(255, 255, 255, 0)`,
+                    customClass: { popup: 'pop-up' }
+                }).then(() => {
+                    location.reload();
+                });
+            } else if(response.trim() === "ja-voluntariada") {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'info',
+                    title: 'Você já é voluntário dessa horta!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    backdrop: `rgba(255, 255, 255, 0)`,
+                    customClass: { popup: 'pop-up' }
+                });
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Erro ao se voluntariar!',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    backdrop: `rgba(255, 255, 255, 0)`,
+                    customClass: { popup: 'pop-up' }
+                });
+            }
         }
     });
 }
