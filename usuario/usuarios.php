@@ -25,7 +25,7 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'impossivel-remover') {
         Swal.fire({
             icon: 'error',
             title: 'Erro ao remover',
-            text: 'Esse usuario é um gerenciador hortas que ainda possui hortas cadastrados!',
+            text: 'Esse usuario é um gerenciador que ainda possui hortas cadastrados!',
             customClass: {
             popup: 'pop-up',
 			    confirmButton: 'btn-vermelho'
@@ -75,6 +75,28 @@ include_once "../layout_footer.php";
 				window.location.href = 'remove_usuario.php?id=' + id;
 			}
 		});
+	}
+
+	function confirmarExclusaoGerenciador(id) {
+		Swal.fire({
+			title: "Tem certeza?",
+			text: "As hortas associadas a esse gerenciador serão excluídas!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#d33",
+			cancelButtonColor: "#aaa",
+			confirmButtonText: "Sim, excluir!",
+			cancelButtonText: "Cancelar",
+			customClass: {
+				popup: 'pop-up',
+				confirmButton: 'btn-vermelho'
+			}
+		}).then((result) => {
+			if (result.isConfirmed) {
+				window.location.href = 'remove_usuario.php?id=' + id;
+			}
+		});
+
 	}
 
 

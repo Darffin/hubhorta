@@ -1,50 +1,36 @@
 <?php
-// layout do cabeçalho
+$tela = 'Tarefas';
+include "verifica.php";
 
-$tela = 'Gerenciadores';
-include "../verifica.php";
+$page_title = "Tarefas";
 
-$page_title = "Gerenciadores";
+include_once "layout_header.php";
+include_once "fachada.php";
 
-include_once "../layout_header.php";
-include_once "../fachada.php";
+$id_horta = $_GET['id_horta'] ?? null;
 
-echo "<section class='container section-forms pagina-hortas'>";
+echo "<section class='container section-forms pagina-tarefas'>";
 
 
 echo "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;'>";
 echo "<input autocomplete='off' name='nome' type='text' id='palavra' placeholder='Filtrar por nome...' style='padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;'>";
-echo "<a href='novo_gerenciador.php' class='btn btn-primary' style='white-space: nowrap;'>Novo</a>";
+if($_SESSION["permissao"] == 'gerenciador' || $_SESSION["permissao"] == 'admin') {
+echo "<a href='nova_tarefa.php' class='btn btn-primary' style='white-space: nowrap;'>Novo</a>";
+}
 echo "</div>";
 
 
 echo '<div id="conteudo-tabela"></div>';
 echo '<div id="conteudo-paginacao" class="paginacao-container-lista" ></div>';
+
 echo "</section>";
 
-//inputPalavra.addEventListener
-
-
-if (isset($_GET['erro']) && $_GET['erro'] === 'impossivel-remover') {
-	echo "<script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Erro ao remover',
-            text: 'Esse gerenciador ainda possui hortas cadastradas!',
-            customClass: {
-            popup: 'pop-up',
-			confirmButton: 'btn-vermelho'
-        }
-        });
-    </script>";
-}
-
-if (isset($_GET['gerenciador-removido'])) {
+if (isset($_GET['tarefa-removida'])) {
 	echo "<script>
 		Swal.fire({
 			position: 'top-end',
 			icon: 'success',
-			title: 'Gerenciador removido!',
+			title: 'Tarefa removida!',
 			showConfirmButton: false,
 			timer: 1500,
        backdrop: `
@@ -58,14 +44,14 @@ if (isset($_GET['gerenciador-removido'])) {
 }
 
 // layout do rodapé
-include_once "../layout_footer.php";
+include_once "layout_footer.php";
 ?>
 
 <script>
 	function confirmarExclusao(id) {
 		Swal.fire({
 			title: "Tem certeza?",
-			text: "As hortas associadas a esse gerenciador serão excluídas!",
+			text: "Essa ação não poderá ser desfeita!",
 			icon: "warning",
 			showCancelButton: true,
 			confirmButtonColor: "#d33",
@@ -78,25 +64,31 @@ include_once "../layout_footer.php";
 			}
 		}).then((result) => {
 			if (result.isConfirmed) {
-				window.location.href = 'remove_gerenciador.php?id=' + id;
+				window.location.href = 'remove_tarefa.php?id=' + id;
 			}
 		});
-
 	}
+
+
 
 $(document).ready(function(){
   load_data();
 
     function load_data(query = '', page = 1) {
         $.ajax({
-            url: 'fetch_gerenciadores.php',
+            url: '/hubhorta/tarefa/fetch_tarefas.php',
             method: 'POST',
-            data: { query: query, page: page },
+            data: { query: query, page: page, id_horta: <?php echo json_encode($id_horta); ?> },
       success: function(data) {
-        var tempDiv = $('<div>').html(data);
-        $('#conteudo-tabela').html(tempDiv.find('table'));
-        $('#conteudo-paginacao').html(tempDiv.find('#paginacao-separada').html());
-      }
+    var tempDiv = $('<div>').html(data);
+
+    var paginacao = tempDiv.find('#paginacao-separada').html();
+
+    tempDiv.find('#paginacao-separada').remove();
+
+    $('#conteudo-tabela').html(tempDiv.html());
+    $('#conteudo-paginacao').html(paginacao);
+}
     });
   }
 

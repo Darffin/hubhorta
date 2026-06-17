@@ -30,6 +30,35 @@ class PostgresGerenciadorDao extends PostgresDao implements GerenciadorDao
         }
     }
 
+    public function buscaHortasDeUmGerenciador($id_gerenciador) {
+
+    $hortas = array();
+
+    $query = "SELECT h.*
+              FROM horta h
+              WHERE h.id_gerenciador = ?;";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(1, $id_gerenciador);
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        $horta = new Horta(
+            $row['id'],
+            $row['nome'],
+            $row['latitude'],
+            $row['longitude'],
+            $row['id_gerenciador'],
+            $row['imagem']
+        );
+
+        $hortas[] = $horta;
+    }
+
+    return $hortas;
+}
+
     public function removePorId($id)
     {
         $query = "DELETE FROM " . $this->table_name .

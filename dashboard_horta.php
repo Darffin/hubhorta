@@ -3,6 +3,7 @@ $page_title = "Pagina Inicial";
 // layout do cabeçalho
 include_once "layout_header.php";
 
+$id_horta = $_GET['id'] ?? null;
 
  ?>
 	<section>
@@ -15,10 +16,12 @@ include_once "layout_header.php";
             </article>
         </div>
         <div class="col-md-5 dados-dashboard">
-            <article>
-                <h1>Tarefas completadas</h1>
-                <h1>1</h1>
-            </article>
+            <a href="mostra_horta.php?id_horta=<?php echo $id_horta; ?>">
+                <article>
+                    <h1>Tarefas completadas</h1>
+                    <h1>1</h1>
+                </article>
+            </a>
         </div>
 
         <div class="col-md-2">
