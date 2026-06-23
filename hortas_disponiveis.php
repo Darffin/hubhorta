@@ -59,7 +59,7 @@ foreach ($hortas as $h) {
             marker.bindPopup(        
             `<b>${horta.nome || "Sem nome"}</b><br>
             ID: ${horta.id}<br><br>
-            <a href="mostra_horta.php?id=${horta.id}" 
+            <a href="mostra_horta.php?id_horta=${horta.id}" 
                class="btn btn-primary">
                Acessar
             </a>`

@@ -323,52 +323,67 @@ public function contaPorUsuario($id_usuario) {
     return $quantos;
 }
 
-public function buscaPorGerenciadorPaginado($id_usuario,$inicio,$quantos) {
+
+public function contaPorGerenciador($id_gerenciador) {
+
+    $query = "
+        SELECT COUNT(*) AS contagem
+        FROM tarefa t
+        INNER JOIN horta h
+            ON h.id = t.id_horta
+        WHERE h.id_gerenciador = ?
+    ";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(1, $id_gerenciador, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row ? $row['contagem'] : 0;
+}
+
+public function buscaPorGerenciadorPaginado($id_gerenciador, $inicio, $quantos) {
     $tarefas = array();
 
     $query = "SELECT
-                    id, titulo, descricao, id_usuario, id_horta, status
-              FROM
-                " . $this->table_name . "
-                  WHERE id_usuario = ?" .
-                " ORDER BY id ASC LIMIT ? OFFSET ?";
- 
-    $stmt = $this->conn->prepare( $query );
-    $stmt->bindValue(1, $id_usuario);
-    $stmt->bindValue(2, $quantos);
-    $stmt->bindValue(3, $inicio);
+                    t.id,
+                    t.titulo,
+                    t.descricao,
+                    t.id_usuario,
+                    t.id_horta,
+                    t.status
+              FROM " . $this->table_name . " t
+              INNER JOIN horta h ON h.id = t.id_horta
+              WHERE h.id_gerenciador = ?
+              ORDER BY t.id ASC
+              LIMIT ? OFFSET ?";
+
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindValue(1, $id_gerenciador, PDO::PARAM_INT);
+    $stmt->bindValue(2, $quantos, PDO::PARAM_INT);
+    $stmt->bindValue(3, $inicio, PDO::PARAM_INT);
+
     $stmt->execute();
 
-    $filter_query = $query . "LIMIT " .$quantos. " OFFSET " . $inicio . '';
-    error_log("---> DAO Query : " . $filter_query);
+    error_log("---> DAO Query : " . $query);
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
-        $tarefas[] = new Tarefa($id,$titulo,$descricao,$id_usuario,$id_horta,$status);
+        $tarefas[] = new Tarefa(
+            $id,
+            $titulo,
+            $descricao,
+            $id_usuario,
+            $id_horta,
+            $status
+        );
     }
-    
+
     return $tarefas;
 }
-
-public function contaPorGerenciador($id_usuario) {
-    $quantos = 0;
-
-    $query = "SELECT COUNT(*) AS contagem FROM " . 
-                $this->table_name .
-                " WHERE id_usuario = ?";
- 
-    $stmt = $this->conn->prepare( $query );
-    $stmt->bindValue(1, $id_usuario);
-    
-    $stmt->execute();
-
-    if ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        extract($row);
-        $quantos = $contagem;
-    }
-    return $quantos;
 }
 
-}
 
 ?>

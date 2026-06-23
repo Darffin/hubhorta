@@ -32,7 +32,7 @@ if ($total_data > 0) {
         echo ' <!--<div class="pedido-card">-->
                     <div class="tarefa-card" data-id="'.$tarefa->getId().'">';
                         if($_SESSION["permissao"] == 'gerenciador' || $_SESSION["permissao"] == 'admin'){
-                            echo '<button class="col botao-deletar" data-id="'.$tarefa->getId().'">X</button>';
+                            echo '<a href="/hubhorta/tarefa/remove_tarefa.php?id='.$tarefa->getId().'&id_horta=' . $id_horta . '" class="col botao-deletar">X</a>';
                         }
         echo            '<h4>Titulo: ' . $tarefa->getTitulo() .'</h4>
                         <h4>Descrição: ' . $tarefa->getDescricao() . '</h4>

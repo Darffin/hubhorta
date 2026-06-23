@@ -16,7 +16,7 @@ $id_horta = $_GET['id'] ?? null;
             </article>
         </div>
         <div class="col-md-5 dados-dashboard">
-            <a href="mostra_horta.php?id_horta=<?php echo $id_horta; ?>">
+            <a href="tarefas.php?id_horta=<?php echo $id_horta; ?>">
                 <article>
                     <h1>Tarefas completadas</h1>
                     <h1>1</h1>

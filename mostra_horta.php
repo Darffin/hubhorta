@@ -4,15 +4,14 @@ include_once "fachada.php";
 if (isset($_GET['title'])) {
     $page_title = $_GET['title'];
 }
-include_once "layout_header.php";
-
-$id = $_GET['id'];
+$id = $_GET['id_horta'];
 $dao = $factory->getHortaDAO();
 $horta = $dao->buscaPorId($id);
+
 if (!isset($_GET['title'])) {
     $page_title = $horta->getNome();
 }
-
+include_once "layout_header.php";
 
 $limit = 5;
 $page = 1;

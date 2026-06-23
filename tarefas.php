@@ -15,7 +15,9 @@ echo "<section class='container section-forms pagina-tarefas'>";
 echo "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;'>";
 echo "<input autocomplete='off' name='nome' type='text' id='palavra' placeholder='Filtrar por nome...' style='padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;'>";
 if($_SESSION["permissao"] == 'gerenciador' || $_SESSION["permissao"] == 'admin') {
-echo "<a href='nova_tarefa.php' class='btn btn-primary' style='white-space: nowrap;'>Novo</a>";
+  if($id_horta != null) {
+    echo "<a href='/hubhorta/tarefa/nova_tarefa.php?id_horta=" . $id_horta . "' class='btn btn-primary' style='white-space: nowrap;'>Novo</a>";
+  }
 }
 echo "</div>";
 

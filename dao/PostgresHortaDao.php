@@ -228,6 +228,28 @@ class PostgresHortaDao extends PostgresDao implements HortaDao
     return $hortas;
 }
 
+
+public function buscaVoluntarios($id_horta) {
+    $usuarios = array();
+
+    $query = "SELECT u.id, u.nome FROM usuario u
+              JOIN hortas_voluntariadas hv ON hv.id_usuario = u.id
+              WHERE hv.id_horta = ?";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(1, $id_horta);
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        extract($row);
+        $usuario = new Usuario($id, null, null, $nome, null);
+        $usuarios[] = $usuario;
+    }
+
+    return $usuarios;
+}
+
+
 // Hora de tentar paginar
 
 public function buscaTodosPaginado($inicio,$quantos) {
