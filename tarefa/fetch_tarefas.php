@@ -34,12 +34,24 @@ if ($total_data > 0) {
                         if($_SESSION["permissao"] == 'gerenciador' || $_SESSION["permissao"] == 'admin'){
                             echo '<a href="/hubhorta/tarefa/remove_tarefa.php?id='.$tarefa->getId().'&id_horta=' . $id_horta . '" class="col botao-deletar">X</a>';
                         }
-        echo            '<h4>Titulo: ' . $tarefa->getTitulo() .'</h4>
-                        <h4>Descrição: ' . $tarefa->getDescricao() . '</h4>
-                        <h4>Status: ' . $tarefa->getStatus() . '</h4>';
-                        
-        echo        '</div>
-            <!--</div>-->';
+        // ... seu código anterior
+        echo '<h4>Titulo: ' . $tarefa->getTitulo() .'</h4>
+            <h4>Descrição: ' . $tarefa->getDescricao() . '</h4>';
+
+        echo '
+        <label>Status:</label>
+        <select class="form-select status-select" style="width: fit-content; margin-bottom: 10px;" data-id="'.$tarefa->getId().'">
+            <option value="pendente"' . ($tarefa->getStatus() == "pendente" ? " selected" : "") . '>Pendente</option>
+            <option value="em_andamento"' . ($tarefa->getStatus() == "em_andamento" ? " selected" : "") . '>Em andamento</option>';
+
+        // Fechamos o echo para colocar o IF do PHP corretamente
+        if($_SESSION["permissao"] == "gerenciador" || $_SESSION["permissao"] == "admin") { 
+            echo '<option value="concluida"' . ($tarefa->getStatus() == "concluida" ? " selected" : "") . '>Concluída</option>'; 
+        }
+
+        echo '</select>';
+        echo '</div>';
+        // ... continuação do seu código
     }
     echo '</div>';
 } else echo '<div class="tarefa-card"><h2>Nenhuma tarefa encontrada!</h2></div>';
@@ -94,5 +106,46 @@ echo ($next <= $total_links) ?
 echo '</ul>';
 echo '</div>';
 ?>
+
+<script>
+// Usamos a delegação de eventos para funcionar mesmo com a paginação
+document.addEventListener('change', function(e) {
+    // Verifica se o elemento alterado é um select de status
+    if (e.target.classList.contains('status-select')) {
+        
+        const selectElement = e.target;
+        const idTarefa = selectElement.getAttribute('data-id');
+        const novoStatus = selectElement.value;
+
+        // Opcional: Desabilita o select rapidinho enquanto salva para evitar cliques duplos
+        selectElement.disabled = true;
+
+        // Prepara os dados para envio
+        let formData = new FormData();
+        formData.append('id_tarefa', idTarefa);
+        formData.append('status', novoStatus);
+
+        // Envia para o arquivo PHP que fará o UPDATE no banco
+        fetch('/hubhorta/tarefa/altera_horta.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            selectElement.disabled = false; // Reabilita o select
+            
+            if(!data.sucesso) {
+                alert('Erro ao atualizar: ' + data.mensagem);
+            }
+            // Se der sucesso, não precisamos fazer nada, o select já está na opção certa!
+        })
+        .catch(error => {
+            selectElement.disabled = false;
+            console.error('Erro:', error);
+            alert('Erro de comunicação com o servidor.');
+        });
+    }
+});
+</script>
 
 

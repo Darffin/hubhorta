@@ -7,5 +7,6 @@ abstract class DaoFactory {
     public abstract function getGerenciadorDao();
     public abstract function getHortaDao();
     public abstract function getTarefaDao();
+    public abstract function getEstoqueDao();
 }
 ?>

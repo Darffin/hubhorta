@@ -15,6 +15,7 @@ $id_horta = $_GET['id'] ?? null;
                 <h1>3</h1>
             </article>
         </div>
+
         <div class="col-md-5 dados-dashboard">
             <a href="tarefas.php?id_horta=<?php echo $id_horta; ?>">
                 <article>
@@ -24,7 +25,7 @@ $id_horta = $_GET['id'] ?? null;
             </a>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-1">
             <a href="Hortas_disponiveis.php">
                 <article>
                 <h2 style="height: 80px;">Perfil do Gerenciador</h2>
@@ -34,6 +35,15 @@ $id_horta = $_GET['id'] ?? null;
             </article>
             </a>
         </div>
+
+        <div class="col-md-1">
+            <a href="estoque.php?id_horta=<?php echo $id_horta; ?>">
+                <article>
+                <h2 style="height: 80px;">Estoque</h2>
+            </article>
+            </a>
+        </div>
+
     </div>
 
 <div class="row">

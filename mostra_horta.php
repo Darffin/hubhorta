@@ -42,8 +42,10 @@ echo "
 <div class='mostra-acoes mt-auto mt-auto d-flex flex-column align-items-center w-100'>
 
     <?php
-        echo "<button onclick='seVoluntariar(".$horta->getId().");' class='btn btn-info row'>Se voluntariar</button> 
-        <button onclick='adicionarInteresse(".$horta->getId().", select.value);' class='btn btn-info row'>Adicionar aos interesses</button>";
+        if($_SESSION["permissao"] == 'usuario') {
+            echo "<button onclick='seVoluntariar(".$horta->getId().");' class='btn btn-info row'>Se voluntariar</button>";
+        }
+        echo "<button onclick='adicionarInteresse(".$horta->getId().", select.value);' class='btn btn-info row'>Adicionar aos interesses</button>";
     ?>
 </div>
 </div>

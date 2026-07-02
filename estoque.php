@@ -1,8 +1,8 @@
 <?php
-$tela = 'Tarefas';
+$tela = 'Estoque';
 include "verifica.php";
 
-$page_title = "Tarefas";
+$page_title = "Estoque";
 
 include_once "layout_header.php";
 include_once "fachada.php";
@@ -11,12 +11,11 @@ $id_horta = $_GET['id_horta'] ?? null;
 
 echo "<section class='container section-forms pagina-tarefas'>";
 
-
 echo "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;'>";
 echo "<input autocomplete='off' name='nome' type='text' id='palavra' placeholder='Filtrar por nome...' style='padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;'>";
 if($_SESSION["permissao"] == 'gerenciador' || $_SESSION["permissao"] == 'admin') {
   if($id_horta != null) {
-    echo "<a href='/hubhorta/tarefa/nova_tarefa.php?id_horta=" . $id_horta . "' class='btn btn-primary' style='white-space: nowrap;'>Novo</a>";
+    echo "<a href='/hubhorta/estoque/novo_item.php?id_horta=" . $id_horta . "' class='btn btn-primary' style='white-space: nowrap;'>Novo item</a>";
   }
 }
 echo "</div>";
@@ -27,12 +26,12 @@ echo '<div id="conteudo-paginacao" class="paginacao-container-lista" ></div>';
 
 echo "</section>";
 
-if (isset($_GET['tarefa-removida'])) {
+if (isset($_GET['item-removido'])) {
 	echo "<script>
 		Swal.fire({
 			position: 'top-end',
 			icon: 'success',
-			title: 'Tarefa removida!',
+			title: 'Item removido!',
 			showConfirmButton: false,
 			timer: 1500,
        backdrop: `
@@ -66,7 +65,7 @@ include_once "layout_footer.php";
 			}
 		}).then((result) => {
 			if (result.isConfirmed) {
-				window.location.href = 'remove_tarefa.php?id=' + id;
+				window.location.href = 'remove_item.php?id=' + id;
 			}
 		});
 	}
@@ -78,7 +77,7 @@ $(document).ready(function(){
 
     function load_data(query = '', page = 1) {
         $.ajax({
-            url: '/hubhorta/tarefa/fetch_tarefas.php',
+            url: '/hubhorta/estoque/fetch_estoque.php',
             method: 'POST',
             data: { query: query, page: page, id_horta: <?php echo json_encode($id_horta); ?> },
       success: function(data) {
@@ -105,7 +104,5 @@ $(document).ready(function(){
     load_data(query, 1);
   });
 });
-
-
 
 </script>

@@ -5,6 +5,7 @@ include_once('PostgresUsuarioDao.php');
 include_once('PostgresGerenciadorDao.php');
 include_once('PostgresHortaDao.php');
 include_once('PostgresTarefaDao.php');
+include_once('PostgresEstoqueDao.php');
 
 class PostgresDaofactory extends DaoFactory {
 
@@ -45,6 +46,10 @@ class PostgresDaofactory extends DaoFactory {
 
     public function getTarefaDao() {
         return new PostgresTarefaDao($this->getConnection());
+    }
+
+    public function getEstoqueDao() {
+        return new PostgresEstoqueDao($this->getConnection());
     }
 }
 ?>

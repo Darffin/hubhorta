@@ -13,7 +13,6 @@
 
 		<?php if(isset($_SESSION["nome_usuario"])){
 			if (($_SESSION["permissao"] == 'admin')) echo "<li><a href='/hubhorta/usuario/usuarios.php'>Usuários</a></li>";
-			if ($_SESSION["permissao"] == 'admin' || $_SESSION["permissao"] == 'gerenciador') echo "<li><a href='/hubhorta/estoque/itens.php'>Gerenciar Estoque</a></li>";
 			if ($_SESSION["permissao"] == 'usuario') echo "<li><a href='/hubhorta/suas_hortas_usuario.php'>Suas Hortas</a></li>";
 			if ($_SESSION["permissao"] == 'gerenciador') echo "<li><a href='/hubhorta/suas_hortas_gerenciador.php'>Suas Hortas</a></li>";
 			if (($_SESSION["permissao"] == 'admin')) echo "<li><a href='/hubhorta/gerenciadores/gerenciadores.php'>Gerenciadores</a></li>";
