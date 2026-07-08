@@ -20,10 +20,15 @@ if($_SESSION["permissao"] == 'gerenciador' && $id_horta == null) {
     $total_data = $dao->contaPorGerenciador($_SESSION["id_usuario"]);
 }
 
-if($_SESSION["permissao"] == 'usuario') {
+if($_SESSION["permissao"] == 'usuario' && $id_horta == null) {
     $id_usuario = $_SESSION["id_usuario"];
     $tarefas = $dao->buscaPorUsuarioPaginado($id_usuario, $start, $limit);
     $total_data = $dao->contaPorUsuario($id_usuario);
+}
+
+if($_SESSION["permissao"] == 'usuario' && $id_horta != null) {
+    $tarefas = $dao->buscaPorHortaPaginado($id_horta, $start, $limit);
+    $total_data = $dao->contaPorHorta($id_horta);
 }
 
 if ($total_data > 0) {
@@ -45,9 +50,9 @@ if ($total_data > 0) {
             <option value="em_andamento"' . ($tarefa->getStatus() == "em_andamento" ? " selected" : "") . '>Em andamento</option>';
 
         // Fechamos o echo para colocar o IF do PHP corretamente
-        if($_SESSION["permissao"] == "gerenciador" || $_SESSION["permissao"] == "admin") { 
+        //if($_SESSION["permissao"] == "gerenciador" || $_SESSION["permissao"] == "admin") { 
             echo '<option value="concluida"' . ($tarefa->getStatus() == "concluida" ? " selected" : "") . '>Concluída</option>'; 
-        }
+        //}
 
         echo '</select>';
         echo '</div>';
@@ -126,26 +131,27 @@ document.addEventListener('change', function(e) {
         formData.append('status', novoStatus);
 
         // Envia para o arquivo PHP que fará o UPDATE no banco
-        fetch('/hubhorta/tarefa/altera_horta.php', {
+        fetch('/hubhorta/tarefa/altera_tarefa.php', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(response => response.text())
         .then(data => {
             selectElement.disabled = false; // Reabilita o select
             
             if(!data.sucesso) {
-                alert('Erro ao atualizar: ' + data.mensagem);
+                //alert('Erro ao atualizar: ' + data.mensagem);
             }
             // Se der sucesso, não precisamos fazer nada, o select já está na opção certa!
         })
         .catch(error => {
             selectElement.disabled = false;
             console.error('Erro:', error);
-            alert('Erro de comunicação com o servidor.');
+            //alert('Erro de comunicação com o servidor.');
         });
     }
 });
+
 </script>
 
 

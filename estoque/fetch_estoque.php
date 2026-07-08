@@ -17,20 +17,17 @@ $total_data = $dao->contaPorHorta($id_horta);
 if ($total_data > 0) {
     echo '<div class="tarefas-grid">';
     foreach ($estoques as $item) {
-        echo'<a href="/hubhorta/estoque/modifica_item.php?id=' . $item->getId() . '">';
         echo '
                     <div class="tarefa-card" data-id="'.$item->getId().'">';
-                        if($_SESSION["permissao"] == 'gerenciador' || $_SESSION["permissao"] == 'admin'){
-                            //echo '<a href="/hubhorta/estoque/remove_item.php?id='.$item->getId().'&id_horta=' . $id_horta . '" class="col botao-deletar">X</a>';
-                        }
         echo            '<h4>Item: ' . $item->getNomeItem() .'</h4>
                         <h4>Quantidade: ' . $item->getQuantidade() . '</h4>';
-                        
+                                    echo '<a href="estoque/modifica_item.php?id=' . $item->getId() . '" class="btn btn-primary">
+               Alterar
+            </a>';
         echo        '</div>';
-        echo'<a/>';
     }
     echo '</div>';
-} else echo '<div class="tarefa-card"><h2>Nenhuma tarefa encontrada!</h2></div>';
+} else echo '<div class="tarefa-card"><h2>Sem itens em estoque!</h2></div>';
 
 echo '<div id="paginacao-separada" style="">';
 echo '<ul class="pagination">';

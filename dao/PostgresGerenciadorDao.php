@@ -47,6 +47,7 @@ class PostgresGerenciadorDao extends PostgresDao implements GerenciadorDao
         $horta = new Horta(
             $row['id'],
             $row['nome'],
+            $row['descricao'],
             $row['latitude'],
             $row['longitude'],
             $row['id_gerenciador'],
@@ -274,5 +275,60 @@ public function contaComNome($nome) {
         $quantos = $contagem;
     }
     return $quantos;
+}
+
+public function contaPorStatusGerenciador($id_gerenciador)
+{
+    $sql = "
+        SELECT
+            COALESCE(SUM(CASE WHEN t.status = 'pendente' THEN 1 ELSE 0 END), 0) AS pendentes,
+            COALESCE(SUM(CASE WHEN t.status = 'em_andamento' THEN 1 ELSE 0 END), 0) AS em_andamento,
+            COALESCE(SUM(CASE WHEN t.status = 'concluida' THEN 1 ELSE 0 END), 0) AS concluidas
+        FROM tarefa t
+        INNER JOIN horta h ON h.id = t.id_horta
+        WHERE h.id_gerenciador = :id_gerenciador
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':id_gerenciador', $id_gerenciador, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function contaPorStatusHorta($id_horta)
+{
+    $sql = "
+        SELECT
+            COALESCE(SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END), 0) AS pendentes,
+            COALESCE(SUM(CASE WHEN status = 'em_andamento' THEN 1 ELSE 0 END), 0) AS em_andamento,
+            COALESCE(SUM(CASE WHEN status = 'concluida' THEN 1 ELSE 0 END), 0) AS concluidas
+        FROM tarefa
+        WHERE id_horta = :id_horta
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':id_horta', $id_horta, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+public function contaPorStatusUsuario($id_usuario)
+{
+    $sql = "
+        SELECT
+            COALESCE(SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END), 0) AS pendentes,
+            COALESCE(SUM(CASE WHEN status = 'em_andamento' THEN 1 ELSE 0 END), 0) AS em_andamento,
+            COALESCE(SUM(CASE WHEN status = 'concluida' THEN 1 ELSE 0 END), 0) AS concluidas
+        FROM tarefa
+        WHERE id_usuario = :id_usuario
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':id_usuario', $id_usuario, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 }

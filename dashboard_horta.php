@@ -2,8 +2,26 @@
 $page_title = "Pagina Inicial";
 // layout do cabeçalho
 include_once "layout_header.php";
+include_once "fachada.php";
 
 $id_horta = $_GET['id'] ?? null;
+
+
+$dao = $factory->getHortaDao();
+$daoGerenciador = $factory->getGerenciadorDao();
+$voluntarios = count($dao->buscaVoluntarios($id_horta));
+$status = $daoGerenciador->contaPorStatusHorta($id_horta);
+
+$daoEstoque = $factory->getEstoqueDao();
+$estoques = $daoEstoque->buscaTodosPorHorta($id_horta);
+
+$nomesItens = [];
+$quantidades = [];
+
+foreach ($estoques as $estoque) {
+    $nomesItens[] = $estoque->getNomeItem();
+    $quantidades[] = (int)$estoque->getQuantidade();
+}
 
  ?>
 	<section>
@@ -12,31 +30,20 @@ $id_horta = $_GET['id'] ?? null;
         <div class="col-md-5 dados-dashboard">
             <article>
                 <h1>Voluntários</h1>
-                <h1>3</h1>
+                <h1><?php echo $voluntarios; ?></h1>
             </article>
         </div>
 
         <div class="col-md-5 dados-dashboard">
             <a href="tarefas.php?id_horta=<?php echo $id_horta; ?>">
                 <article>
-                    <h1>Tarefas completadas</h1>
-                    <h1>1</h1>
+                    <h1>Tarefas Pendentes</h1>
+                    <h1><?php echo $status['pendentes']; ?></h1>
                 </article>
             </a>
         </div>
 
-        <div class="col-md-1">
-            <a href="Hortas_disponiveis.php">
-                <article>
-                <h2 style="height: 80px;">Perfil do Gerenciador</h2>
-                <div class="img-box inicial-img">
-                    <img class="img-fluid mb-2" src="images/image1.jpg">
-                </div>
-            </article>
-            </a>
-        </div>
-
-        <div class="col-md-1">
+        <div class="col-md-2">
             <a href="estoque.php?id_horta=<?php echo $id_horta; ?>">
                 <article>
                 <h2 style="height: 80px;">Estoque</h2>
@@ -54,7 +61,7 @@ $id_horta = $_GET['id'] ?? null;
     </div>
     <div class="col-md-6 grafico">
         <article>
-            <div id="graficoLinha" style="height:300px;"></div>
+            <div id="graficoEstoque" style="height:300px;"></div>
         </article>
     </div>
 </div>
@@ -67,11 +74,15 @@ include_once "layout_footer.php";
 ?>
 
 <script>
-    // Configuração do gráfico de pizza
+
+    const pendentes = <?= $status['pendentes'] ?>;
+    const andamento = <?= $status['em_andamento'] ?>;
+    const concluidas = <?= $status['concluidas'] ?>;
+
     var graficoPizza = echarts.init(document.getElementById('graficoPizza'));
     var optionPizza = {
         title: {
-            text: 'Distribuição de Tarefas',
+            text: 'Tarefas da horta',
             left: 'center'
         },
         tooltip: {
@@ -82,51 +93,98 @@ include_once "layout_footer.php";
             left: 'left'
         },
         series: [
-            {
-                name: 'Voluntários',
-                type: 'pie',
-                radius: '50%',
-                data: [
-                    { value: 10, name: 'Voluntário A' },
-                    { value: 20, name: 'Voluntário B' },
-                    { value: 30, name: 'Voluntário C' }
-                ],
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
-            }
-        ]
+{
+    name: 'Tarefas',
+    type: 'pie',
+    radius: '65%',
+
+    data: [
+
+        {
+            value: pendentes,
+            name: 'Pendentes'
+        },
+
+        {
+            value: andamento,
+            name: 'Em andamento'
+        },
+
+        {
+            value: concluidas,
+            name: 'Concluídas'
+        }
+
+    ],
+
+    label:{
+        formatter: '{b}\n{d}%'
+    },
+
+    emphasis:{
+
+        itemStyle:{
+            shadowBlur:10,
+            shadowOffsetX:0,
+            shadowColor:'rgba(0,0,0,0.5)'
+        }
+
+    }
+}
+]
     };
     graficoPizza.setOption(optionPizza);
 
-    var graficoLinha = echarts.init(document.getElementById('graficoLinha'));
-    var optionLinha = {
-        title: {
-            text: 'Tarefas Concluídas por Mês',
-            left: 'center'
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        xAxis: {
-            type: 'category',
-            data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [
-            {
-                name: 'Tarefas Concluídas',
-                type: 'line',
-                data: [5, 15, 25, 30, 20, 45]
+    
+const nomesItens = <?= json_encode($nomesItens); ?>;
+const quantidades = <?= json_encode($quantidades); ?>;
+
+var graficoEstoque = echarts.init(document.getElementById('graficoEstoque'));
+
+var optionEstoque = {
+
+    title: {
+        text: 'Quantidade de Itens em Estoque',
+        left: 'center'
+    },
+
+    tooltip: {
+        trigger: 'axis'
+    },
+
+    xAxis: {
+        type: 'category',
+        data: nomesItens,
+        axisLabel: {
+            interval: 0,
+            rotate: 30
+        }
+    },
+
+    yAxis: {
+        type: 'value',
+        name: 'Quantidade'
+    },
+
+    series: [
+        {
+            name: 'Quantidade',
+            type: 'bar',
+            data: quantidades,
+
+            label: {
+                show: true,
+                position: 'top'
+            },
+
+            itemStyle: {
+                borderRadius: [5, 5, 0, 0]
             }
-        ]
-    };
-    graficoLinha.setOption(optionLinha);
+        }
+    ]
+
+};
+
+graficoEstoque.setOption(optionEstoque);
 
 </script>

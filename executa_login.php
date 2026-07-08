@@ -31,7 +31,12 @@ if($usuario) {
         $_SESSION["nome_usuario"] = stripslashes($usuario->getNome()); 
         $_SESSION["login"] = $usuario->getLogin(); 
         $_SESSION["permissao"]= $usuario->getPermissao(); 
-        header("Location: index.php"); 
+        
+        if($_SESSION["permissao"] == 'usuario' || $_SESSION["permissao"] == 'admin'){
+            header("Location: index.php"); 
+        } else if($_SESSION["permissao"] == 'gerenciador'){
+            header("Location: index_gerenciador.php"); 
+        }
         exit; 
     } else {
         $problemas = TRUE; 

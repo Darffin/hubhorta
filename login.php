@@ -10,9 +10,10 @@ $page = $_POST['page'] ?? 1;
 $start = ($page - 1) * $limit;
 
 
-//$dao = $factory->getHortasDAO();
-//$hortas = $dao->buscaComNomePaginado('', $start, $limit);
-$total_data =  5;// $dao->contaComNome('');
+
+$dao = $factory->getHortaDao();
+$hortas = $dao->buscaComNomePaginado('', $start, $limit);
+$total_data = $dao->contaComNome('');
 
 ?>
 <div class="login-conteudo">
@@ -43,12 +44,12 @@ $total_data =  5;// $dao->contaComNome('');
         <?php
         
         if ($total_data > 0) {
-           for($i=0; $i<$total_data; $i++){// foreach ( /*$Hortas as $Horta*/) {
+           foreach ($hortas as $horta) {
                 echo '
                         <li class="horta-card">
-                            <a href="/hubhorta/mostra_horta.php?" class="">
+                            <a href="/hubhorta/mostra_horta.php?id_horta=' . $horta->getId() . '&title=' . $horta->getNome() . '" class="">
                                 <div class="image-container" style="height: 230px;">
-                                    <img src="images/uploads/"/>
+                                    <img src="images/uploads/' . $horta->getImagem() . '"/>
                                 </div>
                             </a>
                         </li>

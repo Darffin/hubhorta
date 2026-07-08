@@ -62,6 +62,38 @@ class PostgresTarefaDao extends PostgresDao implements TarefaDao {
     return $tarefas;
 }
 
+public function buscaTarefasConcluidasDeUmUsuario($id_usuario) {
+
+    $tarefas = array();
+
+    $query = "SELECT t.*
+              FROM tarefa t
+              INNER JOIN usuario u
+                  ON t.id_usuario = u.id
+              WHERE t.id_usuario = ?
+                AND t.status = ?
+              ORDER BY t.id ASC";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindValue(1, $id_usuario, PDO::PARAM_INT);
+    $stmt->bindValue(2, 'concluido', PDO::PARAM_STR);
+    $stmt->execute();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+        $tarefas[] = new Tarefa(
+            $row['id'],
+            $row['titulo'],
+            $row['descricao'],
+            $row['id_usuario'],
+            $row['id_horta'],
+            $row['status']
+        );
+    }
+
+    return $tarefas;
+}
+
     public function removePorId($id) {
         $query = "DELETE FROM " . $this->table_name . 
         " WHERE id = :id";
@@ -178,6 +210,7 @@ class PostgresTarefaDao extends PostgresDao implements TarefaDao {
         return $tarefas;
     }
 
+    
     public function buscaPorTitulo($titulo){
     $tarefas = array();
 

@@ -4,35 +4,36 @@ $page_title = "Novo Usuário";
 include_once "../layout_header.php";
  ?>
  <section class='container section-forms'>
-<form action="insere_usuario.php" method="get">
-    <table class='table table-hover table-responsive table-bordered'>
-         <tr>
-            <td>Login</td>
-            <td><input type='text' name='login' class='form-control' /></td>
-        </tr>
-         <tr>
-            <td>Senha</td>
-            <td><input type='password' id='senha' name='senha' class='form-control' /></td>
-        </tr>
-         <tr>
-            <td>Nome</td>
-            <td><input type='text' name='nome' class='form-control' /></td>
-        </tr>
-        <tr>
-            <td>Nos conte o que você quer fazer!</td>
-            <td>           
+<form action="insere_usuario.php" method="get" enctype="multipart/form-data" class="form-horta">
+
+        <div class="campo-form">
+            <label for="login">Usuário</label>
+            <input type="text" name="login" id="login" class="form-control">
+        </div>
+
+        <div class="campo-form">
+            <label for="senha">Sua senha</label>
+            <input type="password" name="senha" id="senha" class="form-control">
+        </div>
+
+        <div class="campo-form">
+            <label for="nome">Seu nome completo</label>
+            <input type="text" name="nome" id="nome" class="form-control">
+        </div>
+
+        <div class="campo-form">
+            <label for="permissao">Nos conte o que deseja fazer!</label>
             <select name = "permissao">
-            <option value="usuario">Voluntario</option>
-            <option value="gerenciador">Administrar</option>
+            <option value="usuario">Ser voluntario</option>
+            <option value="gerenciador">Gerenciar hortas</option>
             </select>
-            </td>
-        </tr>
-            <td></td>
-            <td>
-                <button type="submit" class="btn btn-primary">Inserir</button>
-            </td>
-        </tr>
-    </table>
+        </div>
+
+        <div class="acoes-form">
+            <input type="reset" value="Limpar" class="btn btn-secondary">
+            <button type="submit" class="btn btn-primary">Inserir</button>
+        </div>
+
 </form>
 </section>
 

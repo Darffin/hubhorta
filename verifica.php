@@ -22,12 +22,12 @@ if($_SESSION["permissao"] != 'admin'){
 
     if($tela == 'usuarios' || $tela == 'gerenciadores'){
         error_log("ACESSO NEGADO - Vai para pagina inicial.php");
-        header("Location: /hubhorta/index.php"); 
+        header("Location: /hubhorta/login.php"); 
     }    
 
     if($tela == 'Estoque' && $_SESSION["permissao"] == 'usuario'){ 
         error_log("ACESSO NEGADO - Vai para pagina inicial.php");
-        header("Location: /hubhorta/index.php"); 
+        header("Location: /hubhorta/login.php"); 
         exit; 
     }
 

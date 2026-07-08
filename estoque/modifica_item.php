@@ -11,7 +11,6 @@ $id_horta = @$_GET["id_horta"];
 $dao = $factory->getEstoqueDao();
 $estoque = $dao->buscaPorId($id);
 
-// layout do cabeçalho
 include_once "../layout_header.php";
  ?>
  <section class='container section-forms'>

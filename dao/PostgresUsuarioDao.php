@@ -106,6 +106,7 @@ class PostgresUsuarioDao extends PostgresDao implements UsuarioDao {
         $horta = new Horta(
             $row['id'],
             $row['nome'],
+            $row['descricao'],
             $row['latitude'],
             $row['longitude'],
             $row['id_gerenciador'],

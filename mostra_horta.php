@@ -21,18 +21,44 @@ $dao = $factory->getHortaDAO();
 $hortas = $dao->buscaComNomePaginado('', $start, $limit);
 $total_data = $dao->contaComNome('');
 
+$lat = $horta->getLatitude();
+$lng = $horta->getLongitude();
+
+$url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=$lat&lon=$lng";
+
+$options = [
+    "http" => [
+        "header" => "User-Agent: HubHorta/1.0\r\n"
+    ]
+];
+
+$context = stream_context_create($options);
+
+$resposta = file_get_contents($url, false, $context);
+
+$dados = json_decode($resposta, true);
+$endereco = $dados['address'];
+
 echo "
-	<section class='container section-forms pagina-produtos'>
+	<section class='container section-forms pagina-hortas'>
 	<div class=''>
     <div class='row'>
-        <div class='col-md-6 mostra-produto'>
+        <div class='col-md-6 mostra-horta'>
             <div class='mostra-imagem'>
-                <img src='/web-petshop/images/uploads/" . $horta->getImagem() . "'/>
-                <!-- <a href=''><button>Carrinho?</button></a> -->
+                <img src='/hubhorta/images/uploads/" . $horta->getImagem() . "'/>
             </div>
         </div>
         <div class='col-md-6 mostra-info d-flex flex-column'>
-            <div class='info-titulo row'>" . $horta->getNome() . "</div>
+            <div class='info-titulo'>" . $horta->getNome() . "</div>
+
+            <div class='info-localizacao'>
+                📍 " . (isset($endereco['road']) ? $endereco['road'] . ", " : "") . (isset($endereco['city']) ? $endereco['city'] : "") . "
+            </div>
+
+            <div class='info-descricao'>
+                " . nl2br($horta->getDescricao()) . "
+            </div>
+
             
 ";
 ?>
@@ -42,11 +68,11 @@ echo "
 <div class='mostra-acoes mt-auto mt-auto d-flex flex-column align-items-center w-100'>
 
     <?php
+        if(isset($_SESSION["id_usuario"]))
         if($_SESSION["permissao"] == 'usuario') {
             echo "<button onclick='seVoluntariar(".$horta->getId().");' class='btn btn-info row'>Se voluntariar</button>";
         }
-        echo "<button onclick='adicionarInteresse(".$horta->getId().", select.value);' class='btn btn-info row'>Adicionar aos interesses</button>";
-    ?>
+        ?>
 </div>
 </div>
 
@@ -54,17 +80,17 @@ echo "
 <hr style="border: 1px solid black;">
 <div class='row'>
     <section class="lista">
-        <div class='produto-grid' id='dynamic_content'></div>
+        <div class='horta-grid' id='dynamic_content'></div>
         <div class='paginacao-container' id='paginacao'></div>
-
 
          <ul class="item-lista" style="padding-left: 0px;"> 
         <?php 
         if ($total_data > 0) {
+            shuffle($hortas);
             foreach ($hortas as $horta) {
                 echo '
                         <li class="horta-card">
-                            <a href="/web-petshop/mostra_horta.php?id=' . $horta->getId() . '&title=' . $horta->getNome() . '" class="">
+                            <a href="/hubhorta/mostra_horta.php?id_horta=' . $horta->getId() . '&title=' . $horta->getNome() . '" class="">
                                 <div class="image-container" style="height: 230px;">
                                     <img src="images/uploads/' . $horta->getImagem() . '"/>
                                 </div>
@@ -81,12 +107,13 @@ echo "
 
 <?php
 
-if (isset($_GET['pedido-criado'])) {
+if (isset($_GET['horta-alterada'])) {
     echo "<script>
 		Swal.fire({
 			position: 'top-end',
 			icon: 'success',
-			title: 'Pedido criado!',
+			title: 'Horta alterada!',
+
 			showConfirmButton: false,
 			timer: 1500,
        backdrop: `
@@ -103,10 +130,6 @@ include_once "layout_footer.php";
 ?>
 
 <script>
-    function enviarPara(destino) {
-        const quantidade = document.getElementById('quantidade_produto').value;
-        window.location.href = destino + "&quantidade_produto=" + quantidade;
-    }
 
     $(document).ready(function(){
 
@@ -119,7 +142,7 @@ include_once "layout_footer.php";
       data: { page: page, query: query, limit:limite },
       success: function(data) {
         var tempDiv = $('<div>').html(data);
-        $('#dynamic_content').html(tempDiv.find('.produto-card'));
+        $('#dynamic_content').html(tempDiv.find('.horta-card'));
         $('#paginacao').html(tempDiv.find('#paginacao-separada').html());
       }
     });
@@ -133,35 +156,7 @@ include_once "layout_footer.php";
   });
 });
 
-function adicionarInteresse(id_horta, id_usuario) {
-    $.ajax({
-        url: "adicionar_interesse.php",
-        method: "POST",
-        data: { id_horta: id_horta, id_usuario: id_usuario },
-        success: function(response) {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Horta adicionada aos interesses!',
-                showConfirmButton: false,
-                timer: 1500,
-                backdrop: `rgba(255, 255, 255, 0)`,
-                customClass: { popup: 'pop-up' }
-            });
-        },
-        error: function() {
-            Swal.fire({
-                position: 'top-end',
-                icon: 'error',
-                title: 'Erro ao adicionar interesse!',
-                showConfirmButton: false,
-                timer: 1500,
-                backdrop: `rgba(255, 255, 255, 0)`,
-                customClass: { popup: 'pop-up' }
-            });
-        }
-    });
-}
+
 
 function seVoluntariar(id_horta) {
     $.ajax({

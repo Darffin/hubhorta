@@ -3,6 +3,7 @@ class Horta {
     
     private $id;
     private $nome;
+    private $descricao;
     private $latitude;
     private $longitude;
     private $gerenciador;
@@ -11,16 +12,17 @@ class Horta {
 
     public static function withId($id)
     {
-    	$instance = new self(null, null, null, null, null, null);
+    	$instance = new self(null, null, null, null, null, null, null);
 	    $instance->setId($id);
 	    return $instance;
     }
 
 
-    public function __construct($id, $nome, $latitude, $longitude, $gerenciador, $imagem)
+    public function __construct($id, $nome, $descricao, $latitude, $longitude, $gerenciador, $imagem)
     {
         $this->id=$id;
         $this->nome=$nome;
+        $this->descricao=$descricao;
         $this->latitude=$latitude;
         $this->longitude=$longitude;
         $this->gerenciador=$gerenciador;
@@ -32,6 +34,9 @@ class Horta {
 
     public function getNome() { return $this->nome; }
     public function setNome($nome) {$this->nome = $nome;}
+
+    public function getDescricao() { return $this->descricao; }
+    public function setDescricao($descricao) {$this->descricao = $descricao;}
 
     public function getLatitude() { return $this->latitude; }
     public function setLatitude($latitude) {$this->latitude = $latitude;}

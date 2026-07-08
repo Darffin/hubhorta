@@ -64,6 +64,10 @@ foreach ($hortas as $h) {
                class="btn btn-primary">
                Acessar
             </a>
+            <a href="horta/modifica_horta.php?id=${horta.id}" 
+               class="btn btn-primary">
+               Alterar
+            </a>
             <a href="#" onclick="excluirHorta(${horta.id});"  
                class="btn btn-vermelho">
                Excluir

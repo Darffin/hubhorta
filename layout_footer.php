@@ -7,8 +7,20 @@
 			session_start();
 		}	
 		?>
-
-		<li><a href='/hubhorta/index.php'>Pagina Inicial</a></li>
+		
+		<?php 
+		if(isset($_SESSION["nome_usuario"])){
+			if($_SESSION["permissao"] == 'usuario'){
+				echo "<li><a href='/hubhorta/index.php'>Pagina Inicial</a></li>";
+			}
+			if($_SESSION["permissao"] == 'gerenciador'){
+				echo "<li><a href='/hubhorta/index_gerenciador.php'>Pagina Inicial</a></li>";
+			}
+		}else{
+			echo "<li><a href='/hubhorta/login.php'>Login</a></li>";
+		}
+		?>
+		
 		<li><a href='/hubhorta/Hortas_disponiveis.php'>Hortas</a></li>
 
 		<?php if(isset($_SESSION["nome_usuario"])){

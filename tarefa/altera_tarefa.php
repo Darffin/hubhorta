@@ -10,16 +10,18 @@ $descricao = @$_GET["descricao"];
 $dao = $factory->getTarefaDao();
 $tempTarefa = $dao->buscaPorId($id);
 
-if (empty($titulo) || empty($descricao)){
+if ((empty($titulo) || empty($descricao)) && $tempTarefa == null){
     header("Location: /hubhorta/tarefa/modifica_tarefa.php?erro=nao-preenchimento&id={$id}");
     exit;
 }
 
 if($tempTarefa != null){
 $tempTarefa->setStatus($status);
-} else $tarefa = new Tarefa($id, $titulo, $descricao, $id_usuario, $id_horta, $status);
-
-$dao->altera($tarefa);
+$dao->altera($tempTarefa);
+} else {
+    $tarefa = new Tarefa($id, $titulo, $descricao, $id_usuario, $id_horta, $status);
+    $dao->altera($tarefa);
+}
 
 header("Location: /hubhorta/tarefas.php");
 exit;

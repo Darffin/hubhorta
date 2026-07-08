@@ -11,33 +11,43 @@ $gerenciadores = $dao->buscaTodos();
 
 
  ?>
- <section class='container section-forms'>
-<form action="insere_horta.php" method="post" enctype="multipart/form-data">
-    <table class='table table-hover table-responsive table-bordered'>
-         <tr>
-            <td>Nome</td>
-            <td><input type='text' name='nome' class='form-control' /></td>
-        </tr>
+<section class="container section-forms">
+    <form action="insere_horta.php" method="post" enctype="multipart/form-data" class="form-horta">
 
-        <tr>
-            <td>Localização</td>
-            <td id="map" style="height: 150px;"></td>
-                <input type="hidden" name="latitude" id="latitude">
-                <input type="hidden" name="longitude" id="longitude">
-            <!-- <form action="enviar.php" method="post" enctype="multipart/form-data"> -->
-            <!--    <input type="file" name="Arquivo" id="Arquivo"> -->
-            <!--    <input type="reset" value="Apagar"> -->
-            <!-- </form> -->
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <button type="submit" class="btn btn-primary">Inserir</button>
-            </td>
-        </tr>
-    </table>
-</form>
+        <div class="campo-form">
+            <label for="nome">Nome da horta</label>
+            <input type="text" name="nome" id="nome" class="form-control">
+        </div>
+
+        <div class="campo-form">
+            <label for="descricao">Descrição da horta</label>
+            <textarea
+                name="descricao"
+                id="descricao"
+                class="form-control"
+                rows="5"
+                placeholder="Descreva a horta, objetivos, horários, informações importantes..."></textarea>
+        </div>
+
+        <div class="campo-form">
+            <label>Escolha a localização</label>
+            <div id="map"></div>
+
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+        </div>
+
+        <div class="campo-form">
+            <label for="Arquivo">Imagem da horta</label>
+            <input type="file" name="Arquivo" id="Arquivo" class="form-control-file">
+        </div>
+
+        <div class="acoes-form">
+            <input type="reset" value="Limpar" class="btn btn-secondary">
+            <button type="submit" class="btn btn-primary">Inserir</button>
+        </div>
+
+    </form>
 </section>
 <?php
 
@@ -75,6 +85,20 @@ if (isset($_GET['erro']) && $_GET['erro'] === 'nao-gerenciador') {
 				window.location.href = '/hubhorta/gerenciadores/novo_gerenciador.php';
 			}
 		});
+    </script>";
+}
+
+if (isset($_GET['erro']) && $_GET['erro'] === 'nao-selecionou-arquivo') {
+    echo "<script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro ao adicionar produto',
+            text: 'Você precisa adicionar uma foto ao seu produto!',
+            customClass: {
+            popup: 'pop-up',
+			confirmButton: 'btn-vermelho'
+        }
+        });
     </script>";
 }
 

@@ -149,6 +149,29 @@ class PostgresEstoqueDao extends PostgresDao implements EstoqueDao {
         return $estoques;
     }
 
+    public function buscaTodosPorHorta($id_horta) {
+
+        $estoques = array();
+
+        $query = "SELECT
+                    id, quantidade, id_horta, nome_item
+                FROM
+                    " . $this->table_name . 
+                    " 
+                WHERE 
+                id_horta = ?";
+     
+        $stmt = $this->conn->prepare( $query );
+        $stmt->bindValue(1, $id_horta);
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+            extract($row);
+            $estoques[] = new Estoque($id,$quantidade,$id_horta,$nome_item);
+        }
+        
+        return $estoques;
+    }
 
 //  paginar
 
